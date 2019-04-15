@@ -15,8 +15,8 @@ def getData(fname):
         labels = data['labels']
     return images, labels
 
-print (getTestData()[1][0])
-print (getTestData()[0][0])
-#print len(getTestData()[0][0])
+#print (getTestData()[1][0])
+#print (getTestData()[0][0])
+#rint len(getTestData()[0][0])
 
-#print len(getTrainData()[0])
+print len(getTrainData()[0])
