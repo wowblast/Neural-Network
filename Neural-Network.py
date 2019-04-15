@@ -6,6 +6,7 @@ import datetime as dt
 from multiprocessing import Process, current_process
 
 
+#define a perceptro with weigths and output
 class Perceptron:
 
     def __init__(self, no_of_inputs, learning_rate):
@@ -19,7 +20,7 @@ class Perceptron:
         return  self.output
     
     
-
+# defina the main class with all the nesesary neurons that they are Perceptrons
 class Neural_network:
     def __init__(self,inputlayer,hiddenlayer,outputlayer,learning_rate,epochs):
         self.inputlayer = [Perceptron(1,learning_rate) for _ in range(inputlayer)]
@@ -27,6 +28,8 @@ class Neural_network:
         self.outputlayer = [Perceptron(hiddenlayer,learning_rate) for _ in range(outputlayer)]
         self.learning_rate = learning_rate
         self.epochs = epochs
+
+    #define the output of the neural network    
     def forward_propagation(self,inputs,target):
         middle_input = []
         output_input =[ ]
@@ -45,6 +48,7 @@ class Neural_network:
             ouputs.append(self.outputlayer[x].activation(np.array(output_input)))
         return ouputs
 
+    #show the outputs
     def test(self,inputs,target):
         middle_input = []
         output_input =[ ]
@@ -63,13 +67,15 @@ class Neural_network:
             ouputs.append(self.outputlayer[x].activation(np.array(output_input)))
         return ouputs    
        
+    #METHOD use to update all the weigths    
     def back_propagation(self,inputs,target):
         outputs = self.forward_propagation(inputs,target) 
         self.update_weights_outputs_layers(outputs,target)
         
-        #error hiden-outpt = o(1-o)(target-o)   
-        # erro inut-hidden = h (1-h) (error out)        
-        #outerror = outputs[0]*(1-outputs[0])*(target/10-outputs[0])
+    #error hiden-outpt = o(1-o)(target-o)   
+    # erro inut-hidden = h (1-h) (error out)        
+    #outerror = outputs[0]*(1-outputs[0])*(target/10-outputs[0])
+
     #updte final weigths    
     def update_weights_outputs_layers(self,outputs,target):
         outerror = outputs[0]*(1-outputs[0])*(target/10-outputs[0])
@@ -82,7 +88,8 @@ class Neural_network:
 
                 self.hiddenlayer[x].error =  self.hiddenlayer[x].output*(1-self.hiddenlayer[x].output)*outerror
             self.update_weights_hidden_layers()
-            self.update_weights_inputs_layers()    
+            self.update_weights_inputs_layers()  
+
     #update hidden weigths        
     def update_weights_hidden_layers(self):
 
@@ -119,7 +126,7 @@ def getData(fname):
 
 
 
-
+# initialize the neural netowork
 no_inputs=28*28
 ind_learning_rate=0.02
 my_neural_network = Neural_network(no_inputs,380,10,ind_learning_rate,1)
@@ -131,12 +138,13 @@ my_neural_network = Neural_network(no_inputs,380,10,ind_learning_rate,1)
 
 X = np.array(getTrainData()[0])
 y = np.array(getTrainData()[1])
-for _ in range(1):
+#training loop
+for _ in range(1): # epochs
     for x in range(1):
         my_neural_network.back_propagation(X[x],y[x])
   
-pred = []
-real = []        
+     
+#show the outputs  
 for x in range(1):
     for outp in my_neural_network.test(X[x],y[x]):
         print (outp)
